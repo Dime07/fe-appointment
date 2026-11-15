@@ -145,7 +145,7 @@ export default function Mentee() {
                   <p className="tags">{m.expertise.map((x) => <span key={x.id}>{x.name}</span>)}</p>
                   {m.bio && <p className="muted">{m.bio}</p>}
                   <button className="primary" disabled={m.slots.length === 0} onClick={() => { setPick(m); setMsg(null); }}>
-                    {m.slots.length === 0 ? 'No available slots' : `Book (${m.slots.length} slots)`}
+                    {m.slots.length === 0 ? 'No available slots' : `Book (${m.slots.length} ${m.slots.length === 1 ? "slot" : "slots"})`}
                   </button>
                 </section>
               ))}
