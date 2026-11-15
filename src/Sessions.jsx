@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import { fmt } from './api.js';
 
 const GROUPS = ['upcoming', 'ongoing', 'past'];
 
 // who: 'mentee' (viewer is mentee, show mentor + contact), 'mentor' (show mentee), 'admin' (show both)
 export default function Sessions({ sessions, who }) {
-  return GROUPS.map((g) => {
-    const items = sessions.filter((s) => s.status === g);
-    return (
-      <section key={g}>
-        <h3>{g[0].toUpperCase() + g.slice(1)} ({items.length})</h3>
+  const [g, setG] = useState('upcoming');
+  const items = sessions.filter((s) => s.status === g);
+  return (
+    <>
+      <div className="seg" role="tablist" aria-label="Session status">
+        {GROUPS.map((x) => (
+          <button key={x} type="button" role="tab" id={`tab-${x}`} aria-selected={g === x} aria-controls="sessions-panel" className={g === x ? 'on' : ''} onClick={() => setG(x)}>
+            {x[0].toUpperCase() + x.slice(1)} <span className="count">{sessions.filter((s) => s.status === x).length}</span>
+          </button>
+        ))}
+      </div>
+      <section id="sessions-panel" role="tabpanel" aria-labelledby={`tab-${g}`}>
         {items.length === 0 ? (
           <p className="muted">No {g} sessions.</p>
         ) : (
@@ -44,6 +52,6 @@ export default function Sessions({ sessions, who }) {
           </div>
         )}
       </section>
-    );
-  });
+    </>
+  );
 }
