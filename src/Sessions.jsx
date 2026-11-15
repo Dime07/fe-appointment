@@ -42,7 +42,7 @@ export default function Sessions({ sessions, who }) {
                   <th>When</th>
                   {who === 'mentee' && <th>Mentor WhatsApp</th>}
                   {who === 'admin' && <th>Invite</th>}
-                  {who !== 'admin' && <th aria-label="Join" />}
+                  {who !== 'admin' && <th>Meeting</th>}
                 </tr>
               </thead>
               <tbody>

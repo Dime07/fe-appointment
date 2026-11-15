@@ -178,7 +178,7 @@ function Mentors({ notify }) {
         ) : (
           <div className="scroll">
             <table className="data">
-              <thead><tr><th>Mentor</th><th>WhatsApp</th><th>Expertise</th><th className="actions-col" aria-label="Actions" /></tr></thead>
+              <thead><tr><th>Mentor</th><th>WhatsApp</th><th>Expertise</th><th className="actions-col">Actions</th></tr></thead>
               <tbody>
                 {shown.map((x) => (
                   <tr key={x.id}>
