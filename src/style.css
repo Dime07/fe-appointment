@@ -268,3 +268,5 @@ table.data td:nth-child(3) { width: 30%; }
 .person .muted, .person-text .muted { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .list .person-text { line-height: 1.35; }
 .list .person-text .muted { font-size: 13px; }
+.actions-col { text-align: left; }
+td.actions-col .row-actions { justify-content: flex-start; margin-left: 0; }
