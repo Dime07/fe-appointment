@@ -139,14 +139,21 @@ export default function Mentee() {
           ) : (
             <div className="mentor-grid">
               {mentors.map((m) => (
-                <section key={m.id} className="card mentor">
-                  <img src={photo(m)} alt="" width="64" height="64" />
-                  <h3>{m.name}</h3>
-                  <p className="tags">{m.expertise.map((x) => <span key={x.id}>{x.name}</span>)}</p>
-                  {m.bio && <p className="muted">{m.bio}</p>}
-                  <button className="primary" disabled={m.slots.length === 0} onClick={() => { setPick(m); setMsg(null); }}>
-                    {m.slots.length === 0 ? 'No available slots' : `Book (${m.slots.length} ${m.slots.length === 1 ? "slot" : "slots"})`}
-                  </button>
+                <section key={m.id} className="mentor">
+                  <div className="cover" />
+                  <img src={photo(m)} alt="" width="80" height="80" />
+                  <div className="body">
+                    <h3>{m.name}</h3>
+                    <p className="tags">{m.expertise.map((x) => <span key={x.id}>{x.name}</span>)}</p>
+                    {m.bio && <p className="bio">{m.bio}</p>}
+                    <p className="next">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+                      {m.slots.length === 0 ? 'No available slots' : `Next: ${fmt(m.slots[0].starts_at)}`}
+                    </p>
+                    <button className="primary" disabled={m.slots.length === 0} onClick={() => { setPick(m); setMsg(null); }}>
+                      {m.slots.length === 0 ? 'Unavailable' : `Book a session (${m.slots.length} ${m.slots.length === 1 ? 'slot' : 'slots'})`}
+                    </button>
+                  </div>
                 </section>
               ))}
             </div>

@@ -63,13 +63,20 @@ th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--border);
 td.actions { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .mentor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-.mentor { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin: 0; }
+.mentor { position: relative; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition-property: box-shadow, translate; transition-duration: 200ms; transition-timing-function: ease-out; }
+.mentor .cover { height: 72px; background: linear-gradient(135deg, #0f172a, #0369a1); }
+.mentor > img { position: absolute; top: 32px; left: 16px; border-radius: 50%; object-fit: cover; border: 4px solid var(--card); background: var(--card); }
+.mentor .body { display: flex; flex: 1; flex-direction: column; gap: 8px; padding: 52px 16px 16px; }
 .mentor h3, .mentor p { margin: 0; }
-
-.mentor button { margin-top: auto; width: 100%; }
+.mentor .bio { flex: 1; font-size: 14px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .mentor .tags:empty { display: none; }
-.mentor img, .avatar { border-radius: 50%; object-fit: cover; outline: 1px solid oklch(0 0 0 / 0.1); outline-offset: -1px; }
-.mentor img { flex: none; }
+.mentor .next { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent); font-weight: 500; margin-top: auto; }
+.mentor .bio + .next { margin-top: 0; }
+.mentor button { width: 100%; }
+@media (hover: hover) {
+  .mentor:hover { translate: 0 -2px; box-shadow: 0 8px 24px rgb(15 23 42 / 0.12); }
+}
+.avatar { border-radius: 50%; object-fit: cover; outline: 1px solid oklch(0 0 0 / 0.1); outline-offset: -1px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
 .tags span { font-size: 12px; padding: 2px 8px; border-radius: 10px; background: #e0f2fe; color: #075985; }
 .slots { list-style: none; padding: 0; margin: 12px 0 0; }
@@ -94,5 +101,7 @@ td.actions { display: flex; flex-wrap: wrap; gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
   button { transition-property: background-color; }
+  .mentor { transition: none; }
+  .mentor:hover { translate: none; }
   button:enabled:active { scale: 1; }
 }
