@@ -272,6 +272,8 @@ function Admins() {
   );
 }
 
+const STAT_LABELS = { total: 'Total sessions', upcoming: 'Upcoming', ongoing: 'Ongoing', past: 'Past' };
+
 function Dashboard() {
   const [s, setS] = useState(null);
   const [error, setError] = useState('');
@@ -281,26 +283,37 @@ function Dashboard() {
   const max = Math.max(1, ...s.per_mentor.map((m) => m.sessions));
   return (
     <>
+      <h2>Dashboard</h2>
       <div className="stats">
-        {['total', 'upcoming', 'ongoing', 'past'].map((k) => (
-          <div key={k} className="card stat">
-            <span className="muted">{k[0].toUpperCase() + k.slice(1)}</span>
+        {Object.keys(STAT_LABELS).map((k) => (
+          <div key={k} className={`card stat ${k}`}>
+            <span>{STAT_LABELS[k]}</span>
             <strong>{s[k]}</strong>
           </div>
         ))}
       </div>
       <section className="card">
-        <h3>Sessions per mentor</h3>
+        <div className="card-head">
+          <h3>Mentor workload</h3>
+          <span className="muted">{s.total} sessions across {s.per_mentor.length} mentors</span>
+        </div>
         {s.per_mentor.length === 0 ? <p className="muted">No mentors yet.</p> : (
-          <ul className="bars">
-            {s.per_mentor.map((m) => (
+          <ol className="rank">
+            {s.per_mentor.map((m, i) => (
               <li key={m.id}>
-                <span>{m.name}</span>
-                <span className="bar"><span style={{ width: `${(m.sessions / max) * 100}%` }} /></span>
-                <strong>{m.sessions}</strong>
+                <span className="pos">{i + 1}</span>
+                <img className="avatar" src={photo(m)} alt="" width="36" height="36" />
+                <div className="info">
+                  <div className="line">
+                    <strong>{m.name}</strong>
+                    <span className="muted">{m.sessions} {m.sessions === 1 ? 'session' : 'sessions'}{s.total ? ` \u00b7 ${Math.round((m.sessions / s.total) * 100)}%` : ''}</span>
+                  </div>
+                  <span className="bar"><span style={{ width: `${(m.sessions / max) * 100}%` }} /></span>
+                  <span className="muted sub">{m.email}</span>
+                </div>
               </li>
             ))}
-          </ul>
+          </ol>
         )}
       </section>
     </>
@@ -327,17 +340,30 @@ const TABS = [
   ['admins', 'Admins', Admins],
 ];
 
+const ICONS = {
+  dashboard: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+  sessions: 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+  mentors: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
+  expertise: 'M12 2l3 7 7 .6-5.3 4.6 1.6 7.1L12 17.8 5.7 21.3l1.6-7.1L2 9.6 9 9z',
+  admins: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+};
+
 export default function Admin() {
   const [tab, setTab] = useState('dashboard');
   const Tab = TABS.find((t) => t[0] === tab)[2];
   return (
-    <>
-      <nav>
-        {TABS.map(([id, label]) => (
-          <button key={id} className={tab === id ? 'on' : ''} aria-current={tab === id ? 'page' : undefined} onClick={() => setTab(id)}>{label}</button>
-        ))}
-      </nav>
-      <Tab />
-    </>
+    <div className="admin-layout">
+      <aside>
+        <nav aria-label="Admin">
+          {TABS.map(([id, label]) => (
+            <button key={id} className={tab === id ? 'on' : ''} aria-current={tab === id ? 'page' : undefined} onClick={() => setTab(id)}>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={ICONS[id]} /></svg>
+              {label}
+            </button>
+          ))}
+        </nav>
+      </aside>
+      <div className="admin-content"><Tab /></div>
+    </div>
   );
 }
