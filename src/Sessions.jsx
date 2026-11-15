@@ -1,5 +1,17 @@
 import { useState } from 'react';
 import { fmt } from './api.js';
+import { Empty, Icon, initials } from './ui.jsx';
+
+const Who = ({ name, sub }) => (
+  <div className="person">
+    <span className="initials" aria-hidden="true">{initials(name)}</span>
+    <div><strong>{name}</strong>{sub && <span className="muted">{sub}</span>}</div>
+  </div>
+);
+const When = ({ s }) => {
+  const [date, start] = fmt(s.starts_at).split(', ');
+  return <div className="when-cell"><strong>{date}</strong><span className="muted">{start.replace(' WIB', '')} - {fmt(s.ends_at).split(', ')[1]}</span></div>;
+};
 
 const GROUPS = ['upcoming', 'ongoing', 'past'];
 
@@ -18,33 +30,31 @@ export default function Sessions({ sessions, who }) {
       </div>
       <section id="sessions-panel" role="tabpanel" aria-labelledby={`tab-${g}`}>
         {items.length === 0 ? (
-          <p className="muted">No {g} sessions.</p>
+          <div className="panel"><Empty icon="sessions" title={`No ${g} sessions`} /></div>
         ) : (
-          <div className="scroll">
-            <table>
+          <div className="panel scroll">
+            <table className="data">
               <thead>
                 <tr>
                   {who !== 'mentee' && <th>Mentee</th>}
                   {who !== 'mentor' && <th>Mentor</th>}
                   <th>Topic</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  {who !== 'admin' && <th>Link</th>}
+                  <th>When</th>
                   {who === 'mentee' && <th>Mentor WhatsApp</th>}
                   {who === 'admin' && <th>Invite</th>}
+                  {who !== 'admin' && <th aria-label="Join" />}
                 </tr>
               </thead>
               <tbody>
                 {items.map((s) => (
                   <tr key={s.id}>
-                    {who !== 'mentee' && <td>{s.mentee_name} ({s.mentee_email})</td>}
-                    {who !== 'mentor' && <td>{s.mentor_name}</td>}
-                    <td>{s.topic}</td>
-                    <td>{fmt(s.starts_at)}</td>
-                    <td>{fmt(s.ends_at)}</td>
-                    {who !== 'admin' && <td><a href={s.meeting_link} target="_blank" rel="noreferrer">Join</a></td>}
-                    {who === 'mentee' && <td>{s.mentor_phone || '-'}</td>}
-                    {who === 'admin' && <td>{s.invite_sent_at ? 'Sent' : 'Not sent'}</td>}
+                    {who !== 'mentee' && <td><Who name={s.mentee_name} sub={s.mentee_email} /></td>}
+                    {who !== 'mentor' && <td><Who name={s.mentor_name} /></td>}
+                    <td className="topic">{s.topic}</td>
+                    <td><When s={s} /></td>
+                    {who === 'mentee' && <td className="nowrap">{s.mentor_phone || '-'}</td>}
+                    {who === 'admin' && <td><span className={`badge ${s.invite_sent_at ? 'ongoing' : 'past'}`}>{s.invite_sent_at ? 'Sent' : 'Not sent'}</span></td>}
+                    {who !== 'admin' && <td className="actions-col"><a className="join" href={s.meeting_link} target="_blank" rel="noreferrer"><Icon name="play" size={14} />Join</a></td>}
                   </tr>
                 ))}
               </tbody>

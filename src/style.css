@@ -270,3 +270,10 @@ table.data td:nth-child(3) { width: 30%; }
 .list .person-text .muted { font-size: 13px; }
 .actions-col { text-align: left; }
 td.actions-col .row-actions { justify-content: flex-start; margin-left: 0; }
+.when-cell { display: grid; line-height: 1.3; white-space: nowrap; }
+.when-cell .muted { font-size: 13px; font-variant-numeric: tabular-nums; }
+td.topic { max-width: 260px; }
+a.join { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 6px; background: var(--primary); color: #fff; font-size: 14px; text-decoration: none; transition: background-color 150ms ease-out, scale 150ms ease-out; }
+a.join:active { scale: .96; }
+@media (hover: hover) { a.join:hover { background: #1e293b; } }
+.seg + section .panel, .seg + section > .panel { margin-top: 0; }
