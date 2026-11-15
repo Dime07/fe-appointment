@@ -178,20 +178,19 @@ function Mentors({ notify }) {
         ) : (
           <div className="scroll">
             <table className="data">
-              <thead><tr><th>Mentor</th><th>WhatsApp</th><th>Expertise</th><th aria-label="Actions" /></tr></thead>
+              <thead><tr><th>Mentor</th><th>WhatsApp</th><th>Expertise</th><th className="actions-col" aria-label="Actions" /></tr></thead>
               <tbody>
                 {shown.map((x) => (
                   <tr key={x.id}>
                     <td>
                       <div className="person">
                         <img className="avatar" src={photo(x)} alt="" width="36" height="36" />
-                        <div><strong>{x.name}</strong><span className="muted">{x.email}</span></div>
-                        {!x.has_login && <span className="badge past">No login</span>}
+                        <div><strong>{x.name}{!x.has_login && <span className="badge past">No login</span>}</strong><span className="muted">{x.email}</span></div>
                       </div>
                     </td>
                     <td className="nowrap">{x.phone || <span className="muted">-</span>}</td>
                     <td><span className="tags">{x.expertise.map((e) => <span key={e.id}>{e.name}</span>)}</span></td>
-                    <td>
+                    <td className="actions-col">
                       <span className="row-actions">
                         <button onClick={() => setModal({ kind: 'slots', mentor: x })}><Icon name="clock" size={16} />Slots</button>
                         <button className="icon-btn" aria-label={`Edit ${x.name}`} title="Edit" onClick={() => setModal({ kind: 'form', mentor: x })}><Icon name="edit" size={16} /></button>
@@ -273,8 +272,7 @@ function Expertise({ notify }) {
                   </form>
                 ) : (
                   <>
-                    <strong>{x.name}</strong>
-                    <span className="muted">{plural(x.mentors, 'mentor')}</span>
+                    <div className="person-text"><strong>{x.name}</strong><span className="muted">{plural(x.mentors, 'mentor')}</span></div>
                     <span className="row-actions">
                       <button className="icon-btn" aria-label={`Rename ${x.name}`} title="Rename" onClick={() => setEditing({ id: x.id, name: x.name })}><Icon name="edit" size={16} /></button>
                       <button className="icon-btn danger-ghost" aria-label={`Delete ${x.name}`} title={x.mentors ? 'In use by mentors' : 'Delete'} disabled={x.mentors > 0} onClick={() => setConfirm({

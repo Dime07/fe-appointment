@@ -260,3 +260,11 @@ td .row-actions { display: flex; }
   .admin-content, .toast { animation: none; }
   .modal, .bar span { transition: none; }
 }
+table.data { min-width: 720px; table-layout: auto; }
+table.data th:first-child, table.data td:first-child { width: 34%; }
+table.data td:nth-child(3) { width: 30%; }
+.actions-col { width: 1%; white-space: nowrap; text-align: right; }
+.person strong { display: flex; align-items: center; gap: 8px; }
+.person .muted, .person-text .muted { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list .person-text { line-height: 1.35; }
+.list .person-text .muted { font-size: 13px; }
