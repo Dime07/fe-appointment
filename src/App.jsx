@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { api, getSession, setSession } from './api.js';
+import { useState } from 'react';
+import { getSession, setSession } from './api.js';
 import Auth from './Auth.jsx';
 import Admin from './Admin.jsx';
 import Mentee from './Mentee.jsx';
@@ -10,11 +10,6 @@ const PORTAL = { admin: Admin, mentor: Mentor, mentee: Mentee };
 
 export default function App() {
   const [session, setS] = useState(getSession());
-  const [health, setHealth] = useState('checking');
-
-  useEffect(() => {
-    api('GET', '/health').then(() => setHealth('ok'), () => setHealth('down'));
-  }, []);
 
   const login = (s) => {
     setSession(s);
@@ -33,7 +28,6 @@ export default function App() {
     <>
       <header>
         <strong>Mentoring Booking{isAdminPage && ' / Admin'}</strong>
-        <span className={`health ${health}`}>API: {health}</span>
         {session && (
           <span className="who">
             {session.user.name} ({session.user.role})

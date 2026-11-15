@@ -6,9 +6,6 @@
 body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: #020617; background: var(--bg); }
 header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 12px 24px; background: var(--card); border-bottom: 1px solid var(--border); }
 header .who { margin-left: auto; display: flex; gap: 8px; align-items: center; font-size: 14px; }
-.health { font-size: 12px; padding: 2px 8px; border-radius: 10px; background: #e2e8f0; }
-.health.ok { background: #dcfce7; color: #14532d; }
-.health.down { background: #fee2e2; color: #7f1d1d; }
 main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
 a { color: var(--accent); }
 h2, h3 { margin: 0 0 8px; }
